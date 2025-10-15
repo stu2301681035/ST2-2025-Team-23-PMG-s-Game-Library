@@ -7,4 +7,9 @@
     <RootNamespace>PMG_s_Game_Repo</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.21" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,30 @@
+﻿@model PMG_s_Game_Repo.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div style="max-width:400px; margin:50px auto; border:1px solid #ddd; padding:20px; border-radius:8px;">
+    <h2>Login</h2>
+
+    <form asp-action="Login" method="post">
+        <div>
+            <label>Email</label><br />
+            <input asp-for="Email" style="width:100%; padding:8px;" />
+            <span asp-validation-for="Email" style="color:red;"></span>
+        </div>
+
+        <div style="margin-top:10px;">
+            <label>Password</label><br />
+            <input asp-for="Password" type="password" style="width:100%; padding:8px;" />
+            <span asp-validation-for="Password" style="color:red;"></span>
+        </div>
+
+        <div style="margin-top:10px;">
+            <input asp-for="RememberMe" /> Remember me
+        </div>
+
+        <button type="submit" style="margin-top:20px; width:100%; padding:10px; background:#007bff; color:white; border:none; border-radius:5px;">
+            Login
+        </button>
+    </form>
+</div>
