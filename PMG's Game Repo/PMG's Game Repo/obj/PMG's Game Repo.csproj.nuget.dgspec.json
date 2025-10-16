@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gecat\\Desktop\\uni shit\\ST2\\PMG's Game Repo\\PMG's Game Repo\\PMG's Game Repo.csproj": {}
+    "C:\\Users\\ptwaf\\Source\\Repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\PMG's Game Repo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gecat\\Desktop\\uni shit\\ST2\\PMG's Game Repo\\PMG's Game Repo\\PMG's Game Repo.csproj": {
+    "C:\\Users\\ptwaf\\Source\\Repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\PMG's Game Repo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gecat\\Desktop\\uni shit\\ST2\\PMG's Game Repo\\PMG's Game Repo\\PMG's Game Repo.csproj",
-        "projectName": "PMG's Game Repo",
-        "projectPath": "C:\\Users\\gecat\\Desktop\\uni shit\\ST2\\PMG's Game Repo\\PMG's Game Repo\\PMG's Game Repo.csproj",
-        "packagesPath": "C:\\Users\\gecat\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gecat\\Desktop\\uni shit\\ST2\\PMG's Game Repo\\PMG's Game Repo\\obj\\",
+        "projectUniqueName": "C:\\Users\\ptwaf\\Source\\Repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\PMG's Game Repo.csproj",
+        "projectName": "PMGs.Game.Repo",
+        "projectPath": "C:\\Users\\ptwaf\\Source\\Repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\PMG's Game Repo.csproj",
+        "packagesPath": "C:\\Users\\ptwaf\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ptwaf\\Source\\Repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\gecat\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ptwaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -55,6 +55,10 @@
               "version": "[8.0.21, )"
             },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.21, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.21, )"
             }
@@ -78,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

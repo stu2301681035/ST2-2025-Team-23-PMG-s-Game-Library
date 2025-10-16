@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using PMG_s_Game_Repo.Data;        // 👈 Make sure you have this namespace (for ApplicationDbContext)
 using PMG_s_Game_Repo.Models;      // 👈 For User
 
@@ -14,14 +16,16 @@ namespace PMG_s_Game_Repo
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddDefaultIdentity<User>(options =>
+            // Fix: Replace AddDefaultIdentity with AddIdentity  
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireDigit = true;
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 6;
             })
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
             builder.Services.AddControllersWithViews();
 
@@ -38,7 +42,7 @@ namespace PMG_s_Game_Repo
 
             app.UseRouting();
 
-            // Authentication & Authorization
+            // Authentication & Authorization  
             app.UseAuthentication();
             app.UseAuthorization();
 
