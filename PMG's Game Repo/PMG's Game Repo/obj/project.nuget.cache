@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XTaoSHE/pIM=",
+  "dgSpecHash": "HZmz8PESCws=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ptwaf\\Source\\Repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\PMGs Game Repo.csproj",
+  "projectFilePath": "C:\\Users\\ptwaf\\source\\repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\PMGs Game Repo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ptwaf\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\ptwaf\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

@@ -3,9 +3,16 @@
 }
 
 <div style="text-align:center; padding:40px;">
-    <h1>🎮 Welcome to the Game Library</h1>
-    <p>Track your favorite games and users easily!</p>
-
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+        <h1>🎮 Welcome back, @User.Identity.Name!</h1>
+        <p>Your game library dashboard</p>
+    }
+    else
+    {
+        <h1>🎮 Welcome to the Game Library</h1>
+        <p>Track your favorite games and users easily!</p>
+    }
     <div style="display:flex; justify-content:center; gap:50px; margin-top:30px;">
         <div style="border:1px solid #ccc; padding:20px; border-radius:10px;">
             <h3>Users</h3>
@@ -19,7 +26,17 @@
     </div>
 
     <div style="margin-top:40px;">
-        <a href="/Account/Login" style="padding:10px 20px; background:#007bff; color:white; border-radius:5px; text-decoration:none;">Login</a>
-        <a href="/Account/Register" style="padding:10px 20px; background:#28a745; color:white; border-radius:5px; text-decoration:none; margin-left:10px;">Register</a>
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            //room for more code
+            <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline; margin-left:10px;">
+                <button type="submit" style="padding:10px 20px; background:#dc3545; color:white; border:none; border-radius:5px; cursor:pointer;">Logout</button>
+            </form>
+        }
+        else
+        {
+            <a href="/Account/Login" style="padding:10px 20px; background:#007bff; color:white; border-radius:5px; text-decoration:none;">Login</a>
+            <a href="/Account/Register" style="padding:10px 20px; background:#28a745; color:white; border-radius:5px; text-decoration:none; margin-left:10px;">Register</a>
+        }
     </div>
 </div>

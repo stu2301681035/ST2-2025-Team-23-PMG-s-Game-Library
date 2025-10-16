@@ -21,6 +21,9 @@ namespace PMG_s_Game_Repo.Controllers
             ViewBag.UserCount = userCount;
             ViewBag.GameCount = gameCount;
 
+            ViewBag.IsAuthenticated = User.Identity?.IsAuthenticated ?? false;
+            ViewBag.UserEmail = User.Identity?.Name;
+
             return View();
         }
         public IActionResult Privacy()
