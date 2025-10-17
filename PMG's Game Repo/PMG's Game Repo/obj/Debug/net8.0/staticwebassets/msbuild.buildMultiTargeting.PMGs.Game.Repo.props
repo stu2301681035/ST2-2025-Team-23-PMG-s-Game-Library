@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\PMGs.Game.Repo.props" />
+</Project>
