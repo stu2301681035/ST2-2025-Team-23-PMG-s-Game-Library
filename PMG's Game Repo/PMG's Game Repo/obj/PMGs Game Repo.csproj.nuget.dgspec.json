@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ptwaf\\source\\repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\PMGs Game Repo.csproj": {}
+    "C:\\Users\\gecat\\Desktop\\uni shit\\ST2\\PMG's Game Repo\\PMG's Game Repo\\PMGs Game Repo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ptwaf\\source\\repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\PMGs Game Repo.csproj": {
+    "C:\\Users\\gecat\\Desktop\\uni shit\\ST2\\PMG's Game Repo\\PMG's Game Repo\\PMGs Game Repo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ptwaf\\source\\repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\PMGs Game Repo.csproj",
+        "projectUniqueName": "C:\\Users\\gecat\\Desktop\\uni shit\\ST2\\PMG's Game Repo\\PMG's Game Repo\\PMGs Game Repo.csproj",
         "projectName": "PMGs.Game.Repo",
-        "projectPath": "C:\\Users\\ptwaf\\source\\repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\PMGs Game Repo.csproj",
-        "packagesPath": "C:\\Users\\ptwaf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ptwaf\\source\\repos\\ST2-2025-Team-23-PMG-s-Game-Library\\PMG's Game Repo\\PMG's Game Repo\\obj\\",
+        "projectPath": "C:\\Users\\gecat\\Desktop\\uni shit\\ST2\\PMG's Game Repo\\PMG's Game Repo\\PMGs Game Repo.csproj",
+        "packagesPath": "C:\\Users\\gecat\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gecat\\Desktop\\uni shit\\ST2\\PMG's Game Repo\\PMG's Game Repo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ptwaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\gecat\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -61,6 +61,16 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.21, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.21, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.7, )"
             }
           },
           "imports": [
@@ -82,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
