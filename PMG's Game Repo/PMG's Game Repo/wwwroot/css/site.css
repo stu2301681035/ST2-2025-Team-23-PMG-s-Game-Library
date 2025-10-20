@@ -1,3 +1,13 @@
+body {
+    background: #000000;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 67%, rgba(0, 212, 255, 1) 100%);
+}
+
+
+h1, h2, p, footer_content {
+    color: white;
+}
+
 html {
   font-size: 14px;
 }
