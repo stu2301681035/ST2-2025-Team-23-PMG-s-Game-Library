@@ -9,14 +9,24 @@
 
     <form method="get" class="row g-3 mb-4 justify-content-center">
         <div class="col-md-3">
-            <input type="text" name="searchQuery" value="@Model.Filters.SearchQuery" class="form-control" placeholder="Search games..." />
+            <input type="text"
+                   name="searchQuery"
+                   value="@Model?.Filters?.SearchQuery"
+                   class="form-control"
+                   placeholder="Search games..." />
         </div>
         <div class="col-md-2">
             <select name="selectedGenre" class="form-select">
                 <option value="">All Genres</option>
-                @foreach (var genre in Model.Filters.Genres ?? new List<string>())
+                @*@foreach (var genre in Model.Filters.Genres ?? new List<string>())
                 {
                     <option value="@genre" selected="@(genre == Model.Filters.SelectedGenre)">
+                        @genre
+                    </option>
+                }*@
+                @foreach (var genre in (Model?.Filters?.Genres ?? Enumerable.Empty<string>()))
+                {
+                    <option value="@genre" selected="@(genre == Model?.Filters?.SelectedGenre)">
                         @genre
                     </option>
                 }
@@ -25,9 +35,9 @@
         <div class="col-md-2">
             <select name="selectedPlatform" class="form-select">
                 <option value="">All Platforms</option>
-                @foreach (var platform in Model.Filters.Platforms ?? new List<string>())
+                @foreach (var platform in Model?.Filters?.Platforms ?? new List<string>())
                 {
-                    <option value="@platform" selected="@(platform == Model.Filters.SelectedPlatform)">
+                    <option value="@platform" selected="@(platform == Model?.Filters.SelectedPlatform)">
                         @platform
                     </option>
                 }
@@ -36,9 +46,9 @@
         <div class="col-md-2">
             <select name="sortOrder" class="form-select">
                 <option value="">Default</option>
-                <option value="name" selected="@(Model.Filters.SortOrder == "name")">Name</option>
-                <option value="rating" selected="@(Model.Filters.SortOrder == "rating")">Rating</option>
-                <option value="released" selected="@(Model.Filters.SortOrder == "released")">Release Date</option>
+                <option value="name" selected="@(Model?.Filters.SortOrder == "name")">Name</option>
+                <option value="rating" selected="@(Model?.Filters.SortOrder == "rating")">Rating</option>
+                <option value="released" selected="@(Model?.Filters.SortOrder == "released")">Release Date</option>
             </select>
         </div>
         <div class="col-md-2">
@@ -47,7 +57,7 @@
     </form>
 
     <div class="row">
-        @if (Model.Games != null && Model.Games.Any())
+        @if (Model?.Games != null && Model.Games.Any())
         {
             @foreach (var game in Model.Games)
             {
@@ -78,7 +88,7 @@
     </div>
 
     <!-- Pagination -->
-    @if (Model.TotalPages > 1)
+    @if (Model?.TotalPages > 1)
     {
         <nav>
             <ul class="pagination justify-content-center">
