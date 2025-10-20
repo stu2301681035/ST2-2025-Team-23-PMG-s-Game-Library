@@ -1,10 +1,9 @@
 body {
     background: #000000;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 67%, rgba(0, 212, 255, 1) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 67%, rgba(0, 212, 255, 1) 96%);
 }
 
-
-h1, h2, p, footer_content {
+h1, h2, p {
     color: white;
 }
 
