@@ -18,12 +18,6 @@
         <div class="col-md-2">
             <select name="selectedGenre" class="form-select">
                 <option value="">All Genres</option>
-                @*@foreach (var genre in Model.Filters.Genres ?? new List<string>())
-                {
-                    <option value="@genre" selected="@(genre == Model.Filters.SelectedGenre)">
-                        @genre
-                    </option>
-                }*@
                 @foreach (var genre in (Model?.Filters?.Genres ?? Enumerable.Empty<string>()))
                 {
                     <option value="@genre" selected="@(genre == Model?.Filters?.SelectedGenre)">
