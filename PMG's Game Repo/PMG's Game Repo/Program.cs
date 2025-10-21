@@ -15,6 +15,8 @@ namespace PMG_s_Game_Repo
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            
+            builder.Services.AddHttpClient(); // for httpclientfactory
 
             // Fix: Replace AddDefaultIdentity with AddIdentity  
             builder.Services.AddIdentity<User, IdentityRole>(options =>

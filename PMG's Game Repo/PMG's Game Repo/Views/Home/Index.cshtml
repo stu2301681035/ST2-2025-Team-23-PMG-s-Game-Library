@@ -1,98 +1,10 @@
 ﻿@using PMG_s_Game_Repo.ViewModels
+@using Microsoft.AspNetCore.Components.Web
 @model GameListViewModel
 @{
     ViewData["Title"] = "Browse Games";
 }
 
 <div class="container mt-4">
-    <h2 class="text-center mb-4">🎮 Browse Games</h2>
-
-    <form method="get" class="row g-3 mb-4 justify-content-center">
-        <div class="col-md-3">
-            <input type="text"
-                   name="searchQuery"
-                   value="@Model?.Filters?.SearchQuery"
-                   class="form-control"
-                   placeholder="Search games..." />
-        </div>
-        <div class="col-md-2">
-            <select name="selectedGenre" class="form-select">
-                <option value="">All Genres</option>
-                @foreach (var genre in (Model?.Filters?.Genres ?? Enumerable.Empty<string>()))
-                {
-                    <option value="@genre" selected="@(genre == Model?.Filters?.SelectedGenre)">
-                        @genre
-                    </option>
-                }
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select name="selectedPlatform" class="form-select">
-                <option value="">All Platforms</option>
-                @foreach (var platform in Model?.Filters?.Platforms ?? new List<string>())
-                {
-                    <option value="@platform" selected="@(platform == Model?.Filters.SelectedPlatform)">
-                        @platform
-                    </option>
-                }
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select name="sortOrder" class="form-select">
-                <option value="">Default</option>
-                <option value="name" selected="@(Model?.Filters.SortOrder == "name")">Name</option>
-                <option value="rating" selected="@(Model?.Filters.SortOrder == "rating")">Rating</option>
-                <option value="released" selected="@(Model?.Filters.SortOrder == "released")">Release Date</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">Apply</button>
-        </div>
-    </form>
-
-    <div class="row">
-        @if (Model?.Games != null && Model.Games.Any())
-        {
-            @foreach (var game in Model.Games)
-            {
-                <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="@game.Background_Image" class="card-img-top" alt="@game.Name" style="height:180px; object-fit:cover;" />
-                        <div class="card-body d-flex flex-column">
-                            <h6 class="card-title">@game.Name</h6>
-                            <p class="text-muted mb-1"><small>⭐ @game.Rating | 📅 @game.Released</small></p>
-                            <div class="mt-auto">
-                                <a href="@Url.Action("Details", "Games", new { id = game.Id })" class="btn btn-sm btn-outline-primary w-100 mb-2">View Details</a>
-                                @if (User.Identity?.IsAuthenticated ?? false)
-                                {
-                                    <button type="button" class="btn btn-sm btn-success w-100">➕ Add to Library</button>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-        else
-        {
-            <div class="text-center mt-5">
-                <p>No games found. Try adjusting your filters!</p>
-            </div>
-        }
-    </div>
-
-    <!-- Pagination -->
-    @if (Model?.TotalPages > 1)
-    {
-        <nav>
-            <ul class="pagination justify-content-center">
-                @for (int i = 1; i <= Model.TotalPages; i++)
-                {
-                    <li class="page-item @(i == Model.Filters.PageNumber ? "active" : "")">
-                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, searchQuery = Model.Filters.SearchQuery, selectedGenre = Model.Filters.SelectedGenre, selectedPlatform = Model.Filters.SelectedPlatform, sortOrder = Model.Filters.SortOrder })">@i</a>
-                    </li>
-                }
-            </ul>
-        </nav>
-    }
+   
 </div>

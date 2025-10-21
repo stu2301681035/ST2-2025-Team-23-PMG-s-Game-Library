@@ -10,7 +10,7 @@ public class RawgGameDetailsDto
     public double Rating { get; set; }
     public string Background_Image { get; set; }
     public List<RawgGenreDto> Genres { get; set; }
-    public List<RawgPlatformDto> Platforms { get; set; }
+    public List<RawgGamePlatformWrapperDto> Platforms { get; set; }
     public List<RawgScreenshotDto> Screenshots { get; set; }
     public List<RawgDeveloperDto> Developers { get; set; }
 }

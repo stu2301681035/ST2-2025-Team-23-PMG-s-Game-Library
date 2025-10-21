@@ -5,30 +5,49 @@ using System.Net.Http.Json;
 public class GamesController : Controller
 {
     private readonly HttpClient _http;
+    private readonly string _apiKey;
 
-    public GamesController(IHttpClientFactory httpClientFactory)
+    public GamesController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
         _http = httpClientFactory.CreateClient();
         _http.BaseAddress = new Uri("https://api.rawg.io/api/");
+        _apiKey = configuration["RawgApi:ApiKey"] ?? throw new InvalidOperationException("RAWG API key not configured");
     }
 
-    public async Task<IActionResult> Index(string searchQuery, string selectedGenre, string selectedPlatform, string sortOrder, int pageNumber = 1)
+    public async Task<IActionResult> Index(string searchQuery, string selectedGenre, int? selectedPlatform, string sortOrder, int pageNumber = 1)
     {
-        // build RAWG API request
-        string apiKey = "YOUR_API_KEY"; // put in config later
-        string url = $"games?key={apiKey}&page={pageNumber}&page_size=12";
+        string url = $"games?key={_apiKey}&page={pageNumber}&page_size=12";
 
         if (!string.IsNullOrEmpty(searchQuery))
             url += $"&search={searchQuery}";
         if (!string.IsNullOrEmpty(selectedGenre))
             url += $"&genres={selectedGenre}";
-        if (!string.IsNullOrEmpty(selectedPlatform))
-            url += $"&platforms={selectedPlatform}";
+        if (selectedPlatform.HasValue)
+            url += $"&platforms={selectedPlatform.Value}";
         if (!string.IsNullOrEmpty(sortOrder))
             url += $"&ordering={(sortOrder == "rating" ? "-rating" : sortOrder)}";
 
         var response = await _http.GetFromJsonAsync<RawgApiResponseDto>(url);
 
+        if (response == null || response.Results == null)
+        {
+            return View(new GameListViewModel
+            {
+                Games = new List<RawgGameDto>(),
+                TotalGames = 0,
+                Filters = new GameFilterViewModel
+                {
+                    SearchQuery = searchQuery,
+                    SelectedGenre = selectedGenre,
+                    SelectedPlatform = selectedPlatform,
+                    SortOrder = sortOrder,
+                    PageNumber = pageNumber,
+                    PageSize = 12,
+                    Genres = await GetGenres(),
+                    Platforms = await GetPlatforms()
+                }
+            });
+        }
         var viewModel = new GameListViewModel
         {
             Games = response.Results,
@@ -49,22 +68,25 @@ public class GamesController : Controller
         return View(viewModel);
     }
 
-    private async Task<List<string>> GetGenres()
+    private async Task<List<RawgGenreDto>> GetGenres()
     {
-        var genres = await _http.GetFromJsonAsync<RawgGenreResponseDto>("genres?key=YOUR_API_KEY");
-        return genres.Results.Select(g => g.Name).ToList();
+        var genres = await _http.GetFromJsonAsync<RawgGenreResponseDto>($"genres?key={_apiKey}");
+        return genres?.Results ?? new List<RawgGenreDto>();
     }
 
-    private async Task<List<string>> GetPlatforms()
+    private async Task<List<RawgPlatformDto>> GetPlatforms()
     {
-        var platforms = await _http.GetFromJsonAsync<RawgPlatformResponseDto>("platforms?key=YOUR_API_KEY");
-        return platforms.Results.Select(p => p.Platform.Name).ToList();
+        var url = $"platforms?key={_apiKey}";
+        var response = await _http.GetFromJsonAsync<RawgPlatformResponseDto>(url);
+
+        return response?.Results ?? new List<RawgPlatformDto>();
+
+
     }
 
     public async Task<IActionResult> Details(int id)
     {
-        string apiKey = "YOUR_API_KEY"; // later move to config
-        var game = await _http.GetFromJsonAsync<RawgGameDetailsDto>($"games/{id}?key={apiKey}");
+        var game = await _http.GetFromJsonAsync<RawgGameDetailsDto>($"games/{id}?key={_apiKey}");
         return View(game);
     }
 }
@@ -80,7 +102,4 @@ public class RawgGenreResponseDto
     public List<RawgGenreDto> Results { get; set; }
 }
 
-public class RawgPlatformResponseDto
-{
-    public List<RawgPlatformDto> Results { get; set; }
-}
+

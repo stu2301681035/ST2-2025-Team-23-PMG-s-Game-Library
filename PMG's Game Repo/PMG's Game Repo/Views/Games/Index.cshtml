@@ -1,0 +1,161 @@
+﻿@using PMG_s_Game_Repo.ViewModels
+@model GameListViewModel
+@{
+    ViewData["Title"] = "Browse Games";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">🎮 Browse Games</h2>
+
+    <form method="get" class="row g-3 mb-4 justify-content-center">
+        <div class="col-md-3">
+            <input type="text"
+                   name="searchQuery"
+                   value="@Model?.Filters?.SearchQuery"
+                   class="form-control"
+                   placeholder="Search games..." />
+        </div>
+        <div class="col-md-2">
+            <select name="selectedGenre" class="form-select">
+                <option value="">All Genres</option>
+                @if (Model?.Filters?.Genres != null)
+                {
+                    foreach (var genre in Model.Filters.Genres)
+                    {
+                        <option value="@genre.Slug" selected="@(genre.Slug == Model.Filters.SelectedGenre)">
+                            @genre.Name
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="selectedPlatform" class="form-select">
+                <option value="">All Platforms</option>
+                @if (Model?.Filters?.Platforms != null)
+                {
+                    foreach (var platform in Model.Filters.Platforms)
+                    {
+                        <option value="@platform.Id" selected="@(platform.Id == Model.Filters.SelectedPlatform)">
+                            @platform.Name
+                        </option>
+                    }
+                }
+            </select>
+
+        </div>
+        <div class="col-md-2">
+            <select name="sortOrder" class="form-select">
+                <option value="">Default</option>
+                <option value="name" selected="@(Model?.Filters?.SortOrder == "name")">Name</option>
+                <option value="rating" selected="@(Model?.Filters?.SortOrder == "rating")">Rating</option>
+                <option value="released" selected="@(Model?.Filters?.SortOrder == "released")">Release Date</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Apply</button>
+        </div>
+    </form>
+
+    <div class="row">
+        @if (Model?.Games != null && Model.Games.Any())
+        {
+            @foreach (var game in Model.Games)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        @if (!string.IsNullOrEmpty(game.Background_Image))
+                        {
+                            <img src="@game.Background_Image" class="card-img-top" alt="@game.Name" style="height:180px; object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height:180px;">
+                                <span class="text-white">No Image</span>
+                            </div>
+                        }
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="card-title">@game.Name</h6>
+                            <p class="text-muted mb-1">
+                                <small>⭐ @(game.Rating > 0 ? game.Rating.ToString("F1") : "N/A")</small>
+                                @if (!string.IsNullOrEmpty(game.Released))
+                                {
+                                    <small> | 📅 @game.Released</small>
+                                }
+                            </p>
+                            <div class="mt-auto">
+                                <a href="@Url.Action("Details", "Games", new { id = game.Id })" class="btn btn-sm btn-outline-primary w-100 mb-2">View Details</a>
+                                @if (User.Identity?.IsAuthenticated ?? false)
+                                {
+                                    <button type="button" class="btn btn-sm btn-success w-100">➕ Add to Library</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center mt-5">
+                <p class="text-muted">No games found. Try adjusting your filters!</p>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination -->
+    @if (Model != null && Model.TotalPages > 1)
+    {
+        <nav aria-label="Game pagination">
+            <ul class="pagination justify-content-center">
+                @if (Model.Filters.PageNumber > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.Filters.PageNumber - 1, searchQuery = Model.Filters.SearchQuery, selectedGenre = Model.Filters.SelectedGenre, selectedPlatform = Model.Filters.SelectedPlatform, sortOrder = Model.Filters.SortOrder })">Previous</a>
+                    </li>
+                }
+
+                @{
+                    int startPage = Math.Max(1, Model.Filters.PageNumber - 2);
+                    int endPage = Math.Min(Model.TotalPages, Model.Filters.PageNumber + 2);
+                }
+
+                @if (startPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = 1, searchQuery = Model.Filters.SearchQuery, selectedGenre = Model.Filters.SelectedGenre, selectedPlatform = Model.Filters.SelectedPlatform, sortOrder = Model.Filters.SortOrder })">1</a>
+                    </li>
+                    @if (startPage > 2)
+                    {
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    }
+                }
+
+                @for (int i = startPage; i <= endPage; i++)
+                {
+                    <li class="page-item @(i == Model.Filters.PageNumber ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, searchQuery = Model.Filters.SearchQuery, selectedGenre = Model.Filters.SelectedGenre, selectedPlatform = Model.Filters.SelectedPlatform, sortOrder = Model.Filters.SortOrder })">@i</a>
+                    </li>
+                }
+
+                @if (endPage < Model.TotalPages)
+                {
+                    @if (endPage < Model.TotalPages - 1)
+                    {
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    }
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.TotalPages, searchQuery = Model.Filters.SearchQuery, selectedGenre = Model.Filters.SelectedGenre, selectedPlatform = Model.Filters.SelectedPlatform, sortOrder = Model.Filters.SortOrder })">@Model.TotalPages</a>
+                    </li>
+                }
+
+                @if (Model.Filters.PageNumber < Model.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.Filters.PageNumber + 1, searchQuery = Model.Filters.SearchQuery, selectedGenre = Model.Filters.SelectedGenre, selectedPlatform = Model.Filters.SelectedPlatform, sortOrder = Model.Filters.SortOrder })">Next</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+</div>
