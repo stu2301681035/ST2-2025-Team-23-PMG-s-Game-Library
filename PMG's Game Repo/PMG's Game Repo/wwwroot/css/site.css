@@ -1,6 +1,33 @@
 body {
-    background: #000000;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 67%, rgba(0, 212, 255, 1) 96%);
+    background-image: url("images/synthwave_bg.jpg");
+    background-color: #000000;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 60px; /* adjust to navbar height */
+    font-family: 'Orbitron';
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("images/synthwave_bg.jpg") center/100% 100% no-repeat;
+    filter: blur(8px);
+    transform: scale(1.1); /* prevents blur edges from showing */
+    z-index: -1;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* stays above page content */
+    background-color: rgba(0, 0, 0, 0.5); /* solid or semi-transparent */
 }
 
 h1, h2, p {
@@ -11,8 +38,22 @@ html {
   font-size: 14px;
 }
 
+.form-container {
+    background-color: black;
+    border-radius: 10px;
+    padding: 30px;
+    color: white;
+}
+
+.row {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
 @media (min-width: 768px) {
-  html {
+    html {
     font-size: 16px;
   }
 }

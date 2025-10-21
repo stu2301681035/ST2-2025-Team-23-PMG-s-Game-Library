@@ -3,26 +3,26 @@
     ViewData["Title"] = "Register";
 }
 
-<div style="max-width:400px; margin:50px auto; border:1px solid #ddd; padding:20px; border-radius:8px;">
+<div class="form-container" style="max-width:400px; margin:50px auto; border:1px solid #ddd; padding:20px; border-radius:8px;">
     <div asp-validation-summary="All" style="color:red; margin-bottom:10px;"></div>
 
     <h2>Create Account</h2>
 
     <form asp-action="Register" method="post">
         <div>
-            <label>Email</label><br />
+            <label><p>Email</p></label>
             <input asp-for="Email" style="width:100%; padding:8px;" />
             <span asp-validation-for="Email" style="color:red;"></span>
         </div>
 
         <div style="margin-top:10px;">
-            <label>Password</label><br />
+            <label><p>Password</p></label>
             <input asp-for="Password" type="password" style="width:100%; padding:8px;" />
             <span asp-validation-for="Password" style="color:red;"></span>
         </div>
 
         <div style="margin-top:10px;">
-            <label>Confirm Password</label><br />
+            <label><p>Confirm Password</p></label>
             <input asp-for="ConfirmPassword" type="password" style="width:100%; padding:8px;" />
             <span asp-validation-for="ConfirmPassword" style="color:red;"></span>
         </div>
