@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using PMG_s_Game_Repo.Data;        // 👈 Make sure you have this namespace (for ApplicationDbContext)
-using PMG_s_Game_Repo.Models;      // 👈 For User
+using PMG_s_Game_Repo.Data;
+using PMG_s_Game_Repo.Models;
 
 namespace PMG_s_Game_Repo
 {
@@ -13,10 +13,12 @@ namespace PMG_s_Game_Repo
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddHttpClient<PMG_s_Game_Repo.Services.RawgService>();
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             
-            builder.Services.AddHttpClient(); // for httpclientfactory
+            builder.Services.AddHttpClient();
 
             // Fix: Replace AddDefaultIdentity with AddIdentity  
             builder.Services.AddIdentity<User, IdentityRole>(options =>
