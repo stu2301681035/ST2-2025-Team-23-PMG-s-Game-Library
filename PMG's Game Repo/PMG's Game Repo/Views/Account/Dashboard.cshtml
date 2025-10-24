@@ -1,0 +1,34 @@
+﻿@using PMG_s_Game_Repo.Models
+@model User
+@{
+    ViewData["Title"] = "Your Account";
+}
+
+<div style="max-width:600px; margin:auto; text-align:center; padding:40px;">
+    <h2>👤 Account Dashboard</h2>
+    <img src="@Model.ProfilePictureUrl" alt="Profile Picture"
+         style="width:120px; height:120px; border-radius:50%; margin:20px auto;" />
+
+    <form asp-action="UpdateProfile" method="post">
+        <div style="margin-bottom:15px;">
+            <label>Email</label><br />
+            <input value="@Model.Email" readonly style="width:100%; padding:8px; background:#eee;" />
+        </div>
+
+        <div style="margin-bottom:15px;">
+            <label asp-for="ProfileDescription">Profile Description</label><br />
+            <textarea asp-for="ProfileDescription" style="width:100%; height:100px; padding:8px;"></textarea>
+        </div>
+
+        <div style="margin-bottom:15px;">
+            <label asp-for="ProfilePictureUrl">Profile Picture URL</label><br />
+            <input asp-for="ProfilePictureUrl" style="width:100%; padding:8px;" />
+        </div>
+
+        <button type="submit" style="padding:10px 20px; background:#007bff; color:white; border:none; border-radius:5px;">Save Changes</button>
+    </form>
+
+    <div style="margin-top:30px;">
+        <a href="/Account/ChangePassword" style="color:#007bff;">Change Password</a>
+    </div>
+</div>

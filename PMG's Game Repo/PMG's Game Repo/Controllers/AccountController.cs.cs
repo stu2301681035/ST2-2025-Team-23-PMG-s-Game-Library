@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PMG_s_Game_Repo.Models;
 using PMG_s_Game_Repo.ViewModels;
+using System.Security.Claims;
 
 namespace PMG_s_Game_Repo.Controllers
 {
@@ -19,6 +21,8 @@ namespace PMG_s_Game_Repo.Controllers
         [HttpGet]
         public IActionResult Login() => View();
 
+
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -28,6 +32,22 @@ namespace PMG_s_Game_Repo.Controllers
             if (result.Succeeded) return RedirectToAction("Index", "Home");
 
             ModelState.AddModelError("", "Invalid login attempt");
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user != null)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+
+                // refresh claim for the profile picture
+                var existingClaim = (await _userManager.GetClaimsAsync(user))
+                    .FirstOrDefault(c => c.Type == "ProfilePictureUrl");
+                if (existingClaim != null)
+                    await _userManager.RemoveClaimAsync(user, existingClaim);
+
+                await _userManager.AddClaimAsync(user, new Claim("ProfilePictureUrl", user.ProfilePictureUrl ?? ""));
+            }
+
             return View(model);
         }
 
@@ -60,5 +80,38 @@ namespace PMG_s_Game_Repo.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+        [Authorize]
+        public async Task<IActionResult> Dashboard()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            return View(user);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile(User updatedUser)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                user.ProfileDescription = updatedUser.ProfileDescription;
+                user.ProfilePictureUrl = string.IsNullOrEmpty(updatedUser.ProfilePictureUrl)
+                    ? user.ProfilePictureUrl
+                    : updatedUser.ProfilePictureUrl;
+
+                await _userManager.UpdateAsync(user);
+
+                var existingClaim = (await _userManager.GetClaimsAsync(user))
+                    .FirstOrDefault(c => c.Type == "ProfilePictureUrl");
+                if (existingClaim != null)
+                    await _userManager.RemoveClaimAsync(user, existingClaim);
+
+                await _userManager.AddClaimAsync(user, new Claim("ProfilePictureUrl", user.ProfilePictureUrl ?? ""));
+            }
+
+            return RedirectToAction("Dashboard");
+        }
+
+
     }
 }

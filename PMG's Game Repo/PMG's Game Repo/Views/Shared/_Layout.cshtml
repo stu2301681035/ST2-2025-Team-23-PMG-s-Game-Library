@@ -1,71 +1,135 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - PMG_s_Game_Repo</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/PMG_s_Game_Repo.styles.css" asp-append-version="true" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Oswald:wght@200..700&family=Saira:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PMG_s_Game_Repo</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PMG_s_Game_Repo.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Oswald:wght@200..700&family=Saira:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-	<header>
-		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">
-			<div class="container-fluid">
-				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PMG's Game Repo</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-						aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-					<ul class="navbar-nav flex-grow-1">
-						<li class="nav-item">
-							<a class="nav-link text-gray" asp-area="" asp-controller="Games" asp-action="Index">Games</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-gray" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-						</li>
-					</ul>
-					<ul class="navbar-nav">
-						@if (User.Identity?.IsAuthenticated ?? false)
-						{
-							<li class="nav-item">
-								<form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-									<button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
-								</form>
-							</li>
-						}
-						else
-						{
-							<li class="nav-item">
-								<a class="nav-link text-gray" asp-controller="Account" asp-action="Login">Login</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-gray" asp-controller="Account" asp-action="Register">Register</a>
-							</li>
-						}
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<div class="container">
-		<main role="main" class="pb-3">
-			@RenderBody()
-		</main>
-	</div>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PMG's Game Repo</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-gray" asp-area="" asp-controller="Games" asp-action="Index">Games</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-gray" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (!User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-gray" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-gray" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
 
-	<footer class="border-top footer text-muted">
-		<div class="container">
-			<p>&copy; 2025 - PMG's Game Repo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></p>
-		</div>
-	</footer>
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-	@await RenderSectionAsync("Scripts", required: false)
+                    </ul>
+                </div>
+            </div>
+            @using Microsoft.AspNetCore.Identity
+            @inject UserManager<User> UserManager
+
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                var user = await UserManager.GetUserAsync(User);
+                var profilePic = user?.ProfilePictureUrl ?? "https://i.ibb.co/2Wj9WzN/default-avatar.png";
+                var isAdmin = user?.IsAdmin ?? false;
+
+                <div class="dropdown" style="position: relative; display: inline-block;">
+                    <!-- Profile Picture Button -->
+                    <button onclick="toggleMenu()"
+                            style="background: none; border: none; cursor: pointer; padding: 0;">
+                        <img src="@profilePic"
+                             alt="Profile"
+                             width="42" height="42"
+                             style="border-radius: 50%; object-fit: cover; border: 2px solid white;" />
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="profileMenu"
+                         style="display: none;
+                                position: absolute;
+                                right: 0;
+                                background: #333;
+                                color: white;
+                                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                                border-radius: 10px;
+                                padding: 10px;
+                                min-width: 180px;
+                                z-index: 1000;">
+                        <div style="text-align: center; margin-bottom: 10px;">
+                            <img src="@profilePic"
+                                 alt="Profile"
+                                 width="70" height="70"
+                                 style="border-radius: 50%; object-fit: cover; border: 2px solid white;" />
+                            <p style="font-weight: bold; margin: 5px 0; color: white;">@User.Identity.Name</p>
+                        </div>
+
+                        <a href="/Account/Dashboard"
+                           style="display: block; padding: 6px 10px; color: white; text-decoration: none;">🧑 Profile</a>
+
+
+                        @if (isAdmin)
+                        {
+                            <a href="/Admin" style="display: block; padding: 6px 10px; color: white; text-decoration: none;">⚙️ Admin Dashboard</a>
+                        }
+
+                        <form asp-controller="Account" asp-action="Logout" method="post" style="margin-top: 10px;">
+                            <button type="submit"
+                                    style="width: 100%; padding: 6px 10px; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                🚪 Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <script>
+                    function toggleMenu() {
+                        const menu = document.getElementById('profileMenu');
+                        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+                    }
+
+                    window.onclick = function (event) {
+                        if (!event.target.closest('.dropdown')) {
+                            document.getElementById('profileMenu').style.display = 'none';
+                        }
+                    }
+                </script>
+            }
+
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            <p>&copy; 2025 - PMG's Game Repo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

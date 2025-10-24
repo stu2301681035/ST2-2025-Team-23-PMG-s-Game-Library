@@ -54,6 +54,8 @@ namespace PMG_s_Game_Repo
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            app.UseStatusCodePagesWithReExecute("/Error/{0}");
+
             app.Run();
         }
     }
