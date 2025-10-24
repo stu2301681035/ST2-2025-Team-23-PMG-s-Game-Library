@@ -28,5 +28,10 @@ namespace PMG_s_Game_Repo.Controllers
 
             return View();
         }
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
     }
 }

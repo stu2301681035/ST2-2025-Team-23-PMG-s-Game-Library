@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PMGs.Game.Repo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+27add460805540bd6dcb55066a4de43d432bbee0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6ba78f136b571a027c161765eeca949187c30991")]
 [assembly: System.Reflection.AssemblyProductAttribute("PMGs.Game.Repo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PMGs.Game.Repo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

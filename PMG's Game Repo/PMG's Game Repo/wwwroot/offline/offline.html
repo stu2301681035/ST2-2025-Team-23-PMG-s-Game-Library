@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Offline Mode 🐱</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+
+        h1 {
+            margin-top: 40px;
+        }
+
+        #game {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 40px auto;
+            border: 3px solid #333;
+            background: white;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .cat {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-image: url('https://i.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif');
+            background-size: cover;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>🐾 You’re Offline! Play Cat Clicker!</h1>
+    <p>Catch as many cats as you can before they disappear!</p>
+    <div id="game"></div>
+    <h2>Score: <span id="score">0</span></h2>
+
+    <script>const game = document.getElementById('game');
+    const scoreEl = document.getElementById('score');
+    let score = 0;
+
+    function spawnCat() {
+      const cat = document.createElement('div');
+      cat.className = 'cat';
+      cat.style.left = Math.random() * 320 + 'px';
+      cat.style.top = Math.random() * 320 + 'px';
+      cat.onclick = () => {
+        score++;
+        scoreEl.textContent = score;
+        game.removeChild(cat);
+      };
+      game.appendChild(cat);
+      setTimeout(() => {
+        if (game.contains(cat)) game.removeChild(cat);
+      }, 1500);
+    }
+
+    setInterval(spawnCat, 1000);</script>
+</body>
+</html>
