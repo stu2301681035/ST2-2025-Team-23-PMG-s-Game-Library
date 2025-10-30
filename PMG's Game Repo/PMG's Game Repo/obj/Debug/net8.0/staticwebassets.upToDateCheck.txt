@@ -1,5 +1,4 @@
 wwwroot\css\site.css
-wwwroot\favicon.ico
 wwwroot\images\easter-egg.jpg
 wwwroot\images\synthwave_bg.jpg
 wwwroot\js\site.js
@@ -62,3 +61,4 @@ wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
 wwwroot\offline\offline.html
 wwwroot\service-worker.js
+wwwroot\favicon.ico

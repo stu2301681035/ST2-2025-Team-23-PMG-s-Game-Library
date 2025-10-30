@@ -54,7 +54,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games", (string)null);
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("GameGenre", b =>
@@ -69,7 +69,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasIndex("GenresId");
 
-                    b.ToTable("GameGenre", (string)null);
+                    b.ToTable("GameGenre");
                 });
 
             modelBuilder.Entity("GamePlatform", b =>
@@ -84,7 +84,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasIndex("PlatformsId");
 
-                    b.ToTable("GamePlatform", (string)null);
+                    b.ToTable("GamePlatform");
                 });
 
             modelBuilder.Entity("Genre", b =>
@@ -101,7 +101,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -237,33 +237,6 @@ namespace PMG_s_Game_Repo.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PMG_s_Game_Repo.Models.Favorite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AddedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Favorites", (string)null);
-                });
-
             modelBuilder.Entity("Platform", b =>
                 {
                     b.Property<int>("Id")
@@ -278,7 +251,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Platforms", (string)null);
+                    b.ToTable("Platforms");
                 });
 
             modelBuilder.Entity("Screenshot", b =>
@@ -300,7 +273,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Screenshot", (string)null);
+                    b.ToTable("Screenshot");
                 });
 
             modelBuilder.Entity("User", b =>
@@ -412,7 +385,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserGames", (string)null);
+                    b.ToTable("UserGames");
                 });
 
             modelBuilder.Entity("GameGenre", b =>
@@ -494,25 +467,6 @@ namespace PMG_s_Game_Repo.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("PMG_s_Game_Repo.Models.Favorite", b =>
-                {
-                    b.HasOne("Game", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Screenshot", b =>

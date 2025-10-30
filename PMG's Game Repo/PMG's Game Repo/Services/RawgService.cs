@@ -29,22 +29,5 @@ namespace PMG_s_Game_Repo.Services
 
             return 0;
         }
-
-        // Add this method to the RawgService class to fix CS1061
-        public async Task<Game> GetGameByIdAsync(int gameId)
-        {
-            // Example implementation, adjust as needed for your actual Game model and RAWG API usage
-            var response = await _httpClient.GetAsync($"https://api.rawg.io/api/games/{gameId}?key={_apiKey}");
-            if (!response.IsSuccessStatusCode)
-                return null;
-
-            var json = await response.Content.ReadAsStringAsync();
-            // Assuming you have a Game class that matches the RAWG API response
-            var game = System.Text.Json.JsonSerializer.Deserialize<Game>(json, new System.Text.Json.JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-            return game;
-        }
     }
 }

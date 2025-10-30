@@ -11,11 +11,10 @@ namespace PMG_s_Game_Repo.Data
         {
         }
 
+        // 👇 Define your database tables (as DbSets)
         public DbSet<Game> Games { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<UserGame> UserGames { get; set; }
-        public DbSet<Favorite> Favorites { get; set; }
-
     }
 }

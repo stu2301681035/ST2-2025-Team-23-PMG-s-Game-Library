@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using PMG_s_Game_Repo.Data;
 using PMG_s_Game_Repo.Models;
-using PMG_s_Game_Repo.Services;
 
 namespace PMG_s_Game_Repo
 {
@@ -20,9 +19,6 @@ namespace PMG_s_Game_Repo
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             
             builder.Services.AddHttpClient();
-
-            builder.Services.AddScoped<RawgService>();
-
 
             // Fix: Replace AddDefaultIdentity with AddIdentity  
             builder.Services.AddIdentity<User, IdentityRole>(options =>
