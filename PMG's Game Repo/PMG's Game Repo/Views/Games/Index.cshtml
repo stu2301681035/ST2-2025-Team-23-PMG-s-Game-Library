@@ -87,7 +87,9 @@
                                 <a href="@Url.Action("Details", "Games", new { id = game.Id })" class="btn btn-sm btn-outline-primary w-100 mb-2">View Details</a>
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
+                                    <form class="d-inline-block w-100" asp-controller="Favorites" asp-action="Add" method="post">
                                     <button type="button" class="btn btn-sm btn-success w-100">➕ Add to Library</button>
+                                    </form>
                                 }
                             </div>
                         </div>

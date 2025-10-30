@@ -6,8 +6,10 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-5">
-            <img src="@Model.Background_Image" alt="@Model.Name" class="img-fluid rounded" />
+            <img src="@Model.Background_Image" alt="@Model.Name" class="img-fluid rounded shadow" />
         </div>
+
+        ```
         <div class="col-md-7">
             <h2>@Model.Name</h2>
             <p><strong>Released:</strong> @Model.Released</p>
@@ -21,7 +23,6 @@
                 }
                 else
                 {
-
                     <span>None</span>
                 }
             </p>
@@ -34,7 +35,6 @@
                 }
                 else
                 {
-
                     <span>None</span>
                 }
             </p>
@@ -42,15 +42,22 @@
             <hr />
 
             <div>
-                @Html.Raw(Model.Description)
+                @Html.Raw(Model.Description ?? "No description available.")
             </div>
 
             <div class="mt-4">
-                <a href="@Url.Action("Index", "Games")" class="btn btn-secondary">⬅ Back to Games</a>
+                <a href="@Url.Action("Index", "Games")" class="btn btn-secondary">
+                    ⬅ Back to Games
+                </a>
 
                 @if (User.Identity?.IsAuthenticated ?? false)
                 {
-                    <button class="btn btn-primary ms-2">➕ Add to Library</button>
+                    <form class="d-inline-block" asp-controller="Favorites" asp-action="Add" method="post">
+                        <input type="hidden" name="gameId" value="@Model.Id" />
+                        <button id="favoriteButton" class="btn btn-primary ms-2" type="submit">
+                            ➕ Add to Library
+                        </button>
+                    </form>
                 }
             </div>
         </div>
@@ -64,9 +71,34 @@
             @foreach (var shot in Model.Screenshots)
             {
                 <div class="col-md-3 mb-3">
-                    <img src="@shot.Image" class="img-fluid rounded" />
+                    <img src="@shot.Image" class="img-fluid rounded shadow-sm" />
                 </div>
             }
         </div>
     }
+    ```
+
 </div>
+
+@section Scripts {
+    <script>
+        // Fetch whether the game is already favorited
+        fetch(`/Favorites/IsFavorite?gameId=@Model.Id`)
+        .then(res => res.json())
+        .then(data => {
+        const btn = document.getElementById("favoriteButton");
+        if (!btn) return;
+
+                    if (data.isFavorite) {
+                        btn.textContent = "❌ Remove from Library";
+                        btn.classList.remove("btn-primary");
+                        btn.classList.add("btn-danger");
+                    } else {
+                        btn.textContent = "➕ Add to Library";
+                        btn.classList.remove("btn-danger");
+                        btn.classList.add("btn-primary");
+                    }
+                });
+    </script>
+
+}

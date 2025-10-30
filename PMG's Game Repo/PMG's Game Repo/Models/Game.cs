@@ -2,8 +2,8 @@
 
 public class Game
 {
-    public int Id { get; set; }             // Your local DB ID
-    public int RawgId { get; set; }         // RAWG's game ID
+    public int Id { get; set; } 
+    public int RawgId { get; set; } 
     public string Name { get; set; }
     public string Description { get; set; }
     public string Released { get; set; }
