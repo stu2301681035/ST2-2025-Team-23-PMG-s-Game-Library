@@ -28,6 +28,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-gray" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-gray" asp-area="" asp-controller="Favorites" asp-action="Index">My Repo</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         @if (!User.Identity?.IsAuthenticated ?? false)
@@ -39,7 +42,6 @@
                                 <a class="nav-link text-gray" asp-controller="Account" asp-action="Register">Register</a>
                             </li>
                         }
-
                     </ul>
                 </div>
             </div>

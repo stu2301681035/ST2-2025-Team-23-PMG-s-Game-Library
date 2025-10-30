@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMG_s_Game_Repo.Data;
 
@@ -11,9 +12,11 @@ using PMG_s_Game_Repo.Data;
 namespace PMG_s_Game_Repo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251029232951_favoriteList")]
+    partial class favoriteList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +57,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games", (string)null);
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("GameGenre", b =>
@@ -69,7 +72,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasIndex("GenresId");
 
-                    b.ToTable("GameGenre", (string)null);
+                    b.ToTable("GameGenre");
                 });
 
             modelBuilder.Entity("GamePlatform", b =>
@@ -84,7 +87,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasIndex("PlatformsId");
 
-                    b.ToTable("GamePlatform", (string)null);
+                    b.ToTable("GamePlatform");
                 });
 
             modelBuilder.Entity("Genre", b =>
@@ -101,7 +104,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -261,7 +264,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Favorites", (string)null);
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("Platform", b =>
@@ -278,7 +281,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Platforms", (string)null);
+                    b.ToTable("Platforms");
                 });
 
             modelBuilder.Entity("Screenshot", b =>
@@ -300,7 +303,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Screenshot", (string)null);
+                    b.ToTable("Screenshot");
                 });
 
             modelBuilder.Entity("User", b =>
@@ -412,7 +415,7 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserGames", (string)null);
+                    b.ToTable("UserGames");
                 });
 
             modelBuilder.Entity("GameGenre", b =>
