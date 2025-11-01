@@ -88,7 +88,11 @@
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
                                     <form class="d-inline-block w-100" asp-controller="Favorites" asp-action="Add" method="post">
-                                    <button type="button" class="btn btn-sm btn-success w-100">➕ Add to Library</button>
+                                        <input type="hidden" name="gameId" value="@game.Id" />
+                                        <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                        <button type="submit" class="btn btn-sm w-100 library-btn" data-game-id="@game.Id" style="display: none;">
+                                            <!--Left blank, loaded by JS. Needs fix to be made better. -->
+                                        </button>
                                     </form>
                                 }
                             </div>
@@ -161,3 +165,36 @@
         </nav>
     }
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.library-btn');
+
+            buttons.forEach(btn => {
+                const gameId = btn.getAttribute('data-game-id');
+
+                fetch(`/Favorites/IsFavorite?gameId=${gameId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.isFavorite) {
+                            btn.textContent = '❌ Remove from Library';
+                            btn.classList.add('btn-danger');
+                        } else {
+                            btn.textContent = '➕ Add to Library';
+                            btn.classList.add('btn-success');
+                        }
+                        // Only shows after update
+                        btn.style.display = 'block';
+                    })
+                    .catch(err => {
+                        console.error('Error checking favorite status:', err);
+                        // show as "Add to Library" if there's an error
+                        btn.textContent = '➕ Add to Library';
+                        btn.classList.add('btn-success');
+                        btn.style.display = 'block';
+                    });
+            });
+        });
+    </script>
+}

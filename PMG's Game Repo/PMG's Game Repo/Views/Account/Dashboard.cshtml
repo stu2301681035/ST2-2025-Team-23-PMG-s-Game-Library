@@ -11,17 +11,17 @@
 
     <form asp-action="UpdateProfile" method="post">
         <div style="margin-bottom:15px;">
-            <label>Email</label><br />
+            <label><p>Email</p></label><br />
             <input value="@Model.Email" readonly style="width:100%; padding:8px; background:#eee;" />
         </div>
 
         <div style="margin-bottom:15px;">
-            <label asp-for="ProfileDescription">Profile Description</label><br />
+            <label asp-for="ProfileDescription"><p>Profile Description</p></label><br />
             <textarea asp-for="ProfileDescription" style="width:100%; height:100px; padding:8px;"></textarea>
         </div>
 
         <div style="margin-bottom:15px;">
-            <label asp-for="ProfilePictureUrl">Profile Picture URL</label><br />
+            <label asp-for="ProfilePictureUrl"><p>Profile Picture URL</p></label><br />
             <input asp-for="ProfilePictureUrl" style="width:100%; padding:8px;" />
         </div>
 
@@ -29,6 +29,6 @@
     </form>
 
     <div style="margin-top:30px;">
-        <a href="/Account/ChangePassword" style="color:#007bff;">Change Password</a>
+        <a href="/Account/ChangePassword" style="display:inline-block; padding:10px 20px; background:#28a745; color:white; text-decoration:none; border-radius:5px;">Change Password</a>
     </div>
 </div>

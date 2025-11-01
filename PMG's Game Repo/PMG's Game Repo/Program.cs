@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PMG_s_Game_Repo.Data;
+using PMG_s_Game_Repo.Filters;
 using PMG_s_Game_Repo.Models;
 using PMG_s_Game_Repo.Services;
 
@@ -37,7 +38,15 @@ namespace PMG_s_Game_Repo
 
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<BannedUserCheckFilter>();
+            });
+
+            builder.Services.AddScoped<BannedUserCheckFilter>();
+
             var app = builder.Build();
+
 
             if (!app.Environment.IsDevelopment())
             {
