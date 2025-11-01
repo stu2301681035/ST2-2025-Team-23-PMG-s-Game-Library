@@ -2269,7 +2269,8 @@
   }
 
   function expandToHashMap(value, keys) {
-    return keys.reduce(function (hashMap, key) {
+      return keys.reduce(function (
+          Map, key) {
       hashMap[key] = value;
       return hashMap;
     }, {});

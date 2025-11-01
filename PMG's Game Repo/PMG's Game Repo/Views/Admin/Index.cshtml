@@ -3,6 +3,20 @@
 
 <h2>🛠️ Admin Dashboard</h2>
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
 <table class="table" style="color:white">
     <thead>
         <tr>
@@ -22,9 +36,11 @@
                 <td>@user.IsAdmin</td>
                 <td>@user.IsBanned</td>
                 <td>
-                    <form asp-action="BanUser" method="post" style="display:inline;">
+                    <form asp-action="ToggleBan" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="@user.Id" />
-                        <button type="submit" class="btn btn-warning btn-sm">Ban</button>
+                        <button type="submit" class="btn btn-@(user.IsBanned ? "success" : "warning") btn-sm">
+                            @(user.IsBanned ? "Unban" : "Ban")
+                        </button>
                     </form>
                     <form asp-action="ToggleAdmin" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="@user.Id" />

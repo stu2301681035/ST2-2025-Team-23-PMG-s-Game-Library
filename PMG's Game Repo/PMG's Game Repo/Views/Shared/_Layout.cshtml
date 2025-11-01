@@ -85,12 +85,16 @@
                         </div>
 
                         <a href="/Account/Dashboard"
-                           style="display: block; padding: 6px 10px; color: white; text-decoration: none;">🧑 Profile</a>
+                           style="display: block; padding: 8px 12px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; text-align: center; margin: 5px 0;">
+                            🧑 Profile
+                        </a>
 
 
                         @if (isAdmin)
                         {
-                            <a href="/Admin" style="display: block; padding: 6px 10px; color: white; text-decoration: none;">⚙️ Admin Dashboard</a>
+                            <a href="/Admin" style="display: block; padding: 8px 12px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; text-align: center; margin: 5px 0;">
+                                ⚙️ Admin Dashboard
+                            </a>
                         }
 
                         <form asp-controller="Account" asp-action="Logout" method="post" style="margin-top: 10px;">

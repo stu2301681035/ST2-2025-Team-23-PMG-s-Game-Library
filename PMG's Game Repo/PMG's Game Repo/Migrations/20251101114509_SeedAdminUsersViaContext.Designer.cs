@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMG_s_Game_Repo.Data;
 
@@ -11,9 +12,11 @@ using PMG_s_Game_Repo.Data;
 namespace PMG_s_Game_Repo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251101114509_SeedAdminUsersViaContext")]
+    partial class SeedAdminUsersViaContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,71 @@ namespace PMG_s_Game_Repo.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Game", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BackgroundImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
+                    b.Property<int>("RawgId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Released")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("GameGenre", b =>
+                {
+                    b.Property<int>("GamesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenresId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GamesId", "GenresId");
+
+                    b.HasIndex("GenresId");
+
+                    b.ToTable("GameGenre");
+                });
+
+            modelBuilder.Entity("GamePlatform", b =>
+                {
+                    b.Property<int>("GamesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlatformsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GamesId", "PlatformsId");
+
+                    b.HasIndex("PlatformsId");
+
+                    b.ToTable("GamePlatform");
+                });
 
             modelBuilder.Entity("Genre", b =>
                 {
@@ -183,7 +251,7 @@ namespace PMG_s_Game_Repo.Migrations
                     b.Property<DateTime>("AddedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RawgId")
+                    b.Property<int>("GameId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -191,6 +259,8 @@ namespace PMG_s_Game_Repo.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GameId");
 
                     b.HasIndex("UserId");
 
@@ -212,6 +282,28 @@ namespace PMG_s_Game_Repo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Platforms");
+                });
+
+            modelBuilder.Entity("Screenshot", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Screenshot");
                 });
 
             modelBuilder.Entity("User", b =>
@@ -297,7 +389,7 @@ namespace PMG_s_Game_Repo.Migrations
                         {
                             Id = "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fc9779ec-3f4c-4c33-b812-bfe87370950e",
+                            ConcurrencyStamp = "92245ecb-f76a-47c1-b26f-3eb54c98c7a5",
                             Email = "georgeadmin@pmggamerepo.com",
                             EmailConfirmed = true,
                             IsAdmin = true,
@@ -305,10 +397,10 @@ namespace PMG_s_Game_Repo.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GEORGEADMIN@PMGGAMEREPO.COM",
                             NormalizedUserName = "GEORGEADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAENqLd+Ze4meBlWkYECwatJhQL0fO++jRRoWRPIPpR/JPi9qZVNuR0XhxOArqKbzJ2w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENkuHLUiJe0W0dbl3KlTU6BUcYbw8KCxlyuL/sDA2xT+hW5EaOSE+XEhJRZz+9EI0g==",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://i.ibb.co/2Wj9WzN/default-avatar.png",
-                            SecurityStamp = "d053fa59-9f2c-4a43-a58c-6c9dd38d415d",
+                            SecurityStamp = "82e581c9-6294-4a1d-a6e7-68224a453fe3",
                             TwoFactorEnabled = false,
                             UserName = "georgeadmin"
                         },
@@ -316,7 +408,7 @@ namespace PMG_s_Game_Repo.Migrations
                         {
                             Id = "2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fb1ca48e-e0ba-4cdd-8857-53e2e8b55f57",
+                            ConcurrencyStamp = "d078e92d-dee9-4262-99ae-7ca17fc20907",
                             Email = "miroslavadmin@pmggamerepo.com",
                             EmailConfirmed = true,
                             IsAdmin = true,
@@ -324,10 +416,10 @@ namespace PMG_s_Game_Repo.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MIROSLAVADMIN@PMGGAMEREPO.COM",
                             NormalizedUserName = "MIROSLAVADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKHbYYvm72GuIS7UrpNCHdUzPzgcm6tEgxLc/OKMbC51msyDbikzYhVfNtGXHKEw9A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJe/Yl/a7N8qx/1ofmgjOZEX0Li/TQ6ebCpGUmIJ3YX31G9ddKfw8eSy/sxrcR1kUg==",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://i.ibb.co/2Wj9WzN/default-avatar.png",
-                            SecurityStamp = "99f7ad4d-7caf-42f5-8dac-cdbbf40760b4",
+                            SecurityStamp = "8b61f5d1-e00f-47f0-b325-19a2dbc15972",
                             TwoFactorEnabled = false,
                             UserName = "miroslavadmin"
                         },
@@ -335,7 +427,7 @@ namespace PMG_s_Game_Repo.Migrations
                         {
                             Id = "3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "84588b80-704c-45da-860e-f548cc5b1802",
+                            ConcurrencyStamp = "8001c899-9508-4ab7-a6a8-6fecf51aa13b",
                             Email = "petaradmin@pmggamerepo.com",
                             EmailConfirmed = true,
                             IsAdmin = true,
@@ -343,10 +435,10 @@ namespace PMG_s_Game_Repo.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PETARADMIN@PMGGAMEREPO.COM",
                             NormalizedUserName = "PETARADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIF0u+WUDRqjhsi4S0OngJCLq6FH/erUt1LmJHQyM9ttF5fE+lHl/b5CsD22LYmj+Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPWEebG6/eN/1j9sQpdy69zBKVuY1rNff65bDiKLCAx5BD/bJg2C+RLxz9zAa1LCqg==",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://i.ibb.co/2Wj9WzN/default-avatar.png",
-                            SecurityStamp = "9588104b-1ad4-4562-ac9e-8f957119ba13",
+                            SecurityStamp = "13aa88e9-95ea-40eb-863e-91c90a8aac60",
                             TwoFactorEnabled = false,
                             UserName = "petaradmin"
                         });
@@ -363,14 +455,14 @@ namespace PMG_s_Game_Repo.Migrations
                     b.Property<DateTime>("AddedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsFavorite")
                         .HasColumnType("bit");
-
-                    b.Property<int>("RawgId")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -378,9 +470,41 @@ namespace PMG_s_Game_Repo.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GameId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("UserGames");
+                });
+
+            modelBuilder.Entity("GameGenre", b =>
+                {
+                    b.HasOne("Game", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GamePlatform", b =>
+                {
+                    b.HasOne("Game", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Platform", null)
+                        .WithMany()
+                        .HasForeignKey("PlatformsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -436,24 +560,56 @@ namespace PMG_s_Game_Repo.Migrations
 
             modelBuilder.Entity("PMG_s_Game_Repo.Models.Favorite", b =>
                 {
+                    b.HasOne("Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Game");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Screenshot", b =>
+                {
+                    b.HasOne("Game", "Game")
+                        .WithMany("Screenshots")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("UserGame", b =>
                 {
+                    b.HasOne("Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("User", "User")
                         .WithMany("Library")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Game");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Game", b =>
+                {
+                    b.Navigation("Screenshots");
                 });
 
             modelBuilder.Entity("User", b =>

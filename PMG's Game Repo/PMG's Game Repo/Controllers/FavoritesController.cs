@@ -29,84 +29,74 @@ namespace PMG_s_Game_Repo.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var favorites = await _context.Favorites
-                .Include(f => f.Game)
                 .Where(f => f.UserId == user.Id)
+                .OrderByDescending(f => f.AddedAt)
                 .ToListAsync();
+
+            var gamesWithDetails = new List<RawgGameDetailsDto>();
+            foreach (var fav in favorites)
+            {
+                var game = await _rawgService.GetGameByIdAsync(fav.RawgId);
+                if (game != null)
+                {
+                    gamesWithDetails.Add(game);
+                }
+            }
 
             if (User.Identity?.IsAuthenticated ?? false)
             {
-                // Rename inner 'user' variable to avoid CS0136
-                var currentUser = user;
-                var favoriteIds = await _context.Favorites
-                    .Where(f => f.UserId == currentUser.Id)
-                    .Select(f => f.GameId)
-                    .ToListAsync();
-
-                ViewBag.FavoriteIds = favoriteIds;
+                ViewBag.FavoriteIds = favorites.Select(f => f.RawgId).ToList();
             }
             else
             {
                 ViewBag.FavoriteIds = new List<int>();
             }
 
-            return View(favorites);
+            return View(gamesWithDetails);
         }
 
         // POST: Add to favorites
         [HttpPost]
-        public async Task<IActionResult> Add(int gameId)
+        public async Task<IActionResult> Add(int gameId, string returnUrl = null)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Unauthorized();
 
-            var game = await _context.Games.FirstOrDefaultAsync(g => g.RawgId == gameId);
+            var rawgGame = await _rawgService.GetGameByIdAsync(gameId);
 
-            if (game == null)
+            if (rawgGame == null)
             {
-                var rawgGame = await _rawgService.GetGameByIdAsync(gameId);
-                if (rawgGame == null)
-                {
-                    TempData["Error"] = "Game not found in RAWG API.";
-                    return RedirectToAction("Index", "Home");
-                }
 
-                game = new Game
-                {
-                    RawgId = rawgGame.Id,
-                    Name = rawgGame.Name,
-                    Released = rawgGame.Released,
-                    Rating = rawgGame.Rating,
-                    BackgroundImage = string.IsNullOrEmpty(rawgGame.BackgroundImage)
-                        ? "/images/default_game.jpg"
-                        : rawgGame.BackgroundImage,
-                    Description = string.IsNullOrEmpty(rawgGame.Description)
-                        ? "No description available."
-                        : rawgGame.Description
-                };
-
-                _context.Games.Add(game);
-                await _context.SaveChangesAsync();
+                TempData["Error"] = "Game not found in RAWG API.";
+                return RedirectToAction("Index", "Home");
             }
 
+           
+
             bool alreadyFavorited = await _context.Favorites
-                .AnyAsync(f => f.GameId == game.Id && f.UserId == user.Id);
+                .AnyAsync(f => f.RawgId == gameId && f.UserId == user.Id);
 
             if (!alreadyFavorited)
             {
-                _context.Favorites.Add(new Favorite { GameId = game.Id, UserId = user.Id });
+                _context.Favorites.Add(new Favorite { RawgId = gameId, UserId = user.Id });
                 await _context.SaveChangesAsync();
-                TempData["Message"] = $"✅ {game.Name} added to your library!";
+                TempData["Message"] = $"✅ {rawgGame.Name} added to your library!";
             }
             else
             {
                 _context.Favorites.Remove(
-                    await _context.Favorites.FirstAsync(f => f.GameId == game.Id && f.UserId == user.Id)
+                    await _context.Favorites.FirstAsync(f => f.RawgId == gameId && f.UserId == user.Id)
                 );
                 await _context.SaveChangesAsync();
-                TempData["Message"] = $"❌ {game.Name} removed from your library.";
+                TempData["Message"] = $"❌ {rawgGame.Name} removed from your library.";
             }
 
-            return RedirectToAction("Details", "Games", new { id = game.RawgId });
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Details", "Games", new { id = gameId });
         }
 
         [HttpPost]
@@ -116,7 +106,7 @@ namespace PMG_s_Game_Repo.Controllers
             if (user == null) return Unauthorized();
 
             var favorite = await _context.Favorites
-                .FirstOrDefaultAsync(f => f.GameId == gameId && f.UserId == user.Id);
+                .FirstOrDefaultAsync(f => f.RawgId == gameId && f.UserId == user.Id);
 
             if (favorite != null)
             {
@@ -135,10 +125,7 @@ namespace PMG_s_Game_Repo.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Json(new { isFavorite = false });
 
-            var game = await _context.Games.FirstOrDefaultAsync(g => g.RawgId == gameId);
-            if (game == null) return Json(new { isFavorite = false });
-
-            bool isFavorite = await _context.Favorites.AnyAsync(f => f.GameId == game.Id && f.UserId == user.Id);
+            bool isFavorite = await _context.Favorites.AnyAsync(f => f.RawgId == gameId && f.UserId == user.Id);
             return Json(new { isFavorite });
         }
     }

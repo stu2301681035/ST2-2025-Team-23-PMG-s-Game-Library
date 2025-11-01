@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PMG_s_Game_Repo.Data;
 using PMG_s_Game_Repo.Services;
+using System.Security.Claims;
 
 namespace PMG_s_Game_Repo.Controllers
 {
@@ -20,7 +21,10 @@ namespace PMG_s_Game_Repo.Controllers
         {
             var userCount = await _context.Users.CountAsync();
             var gameCount = await _rawgService.GetTotalGameCountAsync();
-            var libraryCount = 0; 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var libraryCount = userId != null
+                ? await _context.Favorites.CountAsync(ug => ug.UserId == userId)
+                : 0;
 
             ViewBag.UserCount = userCount;
             ViewBag.GameCount = gameCount;

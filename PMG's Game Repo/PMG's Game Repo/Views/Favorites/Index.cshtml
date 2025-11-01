@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PMG_s_Game_Repo.Models.Favorite>
+﻿@model List<RawgGameDetailsDto>
 
 @{
     ViewData["Title"] = "My Favorite Games";
@@ -16,10 +16,10 @@ else
         @foreach (var fav in Model)
         {
             <div style="border:1px solid #ccc; border-radius:10px; padding:15px; width:200px;">
-                <img src="@fav.Game.BackgroundImage" style="width:100%; border-radius:10px;" />
-                <h4>@fav.Game.Name</h4>
+                <img src="@fav.Background_Image" style="width:100%; border-radius:10px;" />
+                <h4>@fav.Name</h4>
                 <form asp-action="Remove" asp-controller="Favorites" method="post">
-                    <input type="hidden" name="gameId" value="@fav.GameId" />
+                    <input type="hidden" name="gameId" value="@fav.Id" />
                     <button type="submit" style="background:#dc3545; color:white; border:none; padding:5px 10px; border-radius:5px;">Remove</button>
                 </form>
             </div>

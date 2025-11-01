@@ -15,10 +15,8 @@ namespace PMG_s_Game_Repo.Models
         public User User { get; set; }
 
         [Required]
-        public int GameId { get; set; }
+        public int RawgId { get; set; }
 
-        [ForeignKey("GameId")]
-        public Game Game { get; set; }
 
         public DateTime AddedAt { get; set; } = DateTime.UtcNow;
     }
