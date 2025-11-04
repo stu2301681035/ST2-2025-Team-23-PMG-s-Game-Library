@@ -26,9 +26,31 @@ namespace PMG_s_Game_Repo.Controllers
                 ? await _context.Favorites.CountAsync(ug => ug.UserId == userId)
                 : 0;
 
+            //Featured game section
+            var mostFavoritedGame = await _context.Favorites
+               .GroupBy(f => f.RawgId)
+               .Select(g => new
+               {
+                   RawgId = g.Key,
+                   FavoriteCount = g.Count()
+               })
+               .OrderByDescending(x => x.FavoriteCount)
+               .FirstOrDefaultAsync();
+
+            RawgGameDetailsDto featuredGame = null;
+            int favoriteCount = 0;
+
+            if (mostFavoritedGame != null)
+            {
+                featuredGame = await _rawgService.GetGameByIdAsync(mostFavoritedGame.RawgId);
+                favoriteCount = mostFavoritedGame.FavoriteCount;
+            }
+
             ViewBag.UserCount = userCount;
             ViewBag.GameCount = gameCount;
             ViewBag.LibraryCount = libraryCount;
+            ViewBag.FeaturedGame = featuredGame;
+            ViewBag.FavoriteCount = favoriteCount;
 
             return View();
         }
