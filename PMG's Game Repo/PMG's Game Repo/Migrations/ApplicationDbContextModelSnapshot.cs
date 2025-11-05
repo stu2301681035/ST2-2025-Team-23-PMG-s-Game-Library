@@ -297,7 +297,7 @@ namespace PMG_s_Game_Repo.Migrations
                         {
                             Id = "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fc9779ec-3f4c-4c33-b812-bfe87370950e",
+                            ConcurrencyStamp = "974faf66-d51f-45f9-b7b6-d43e5895d186",
                             Email = "georgeadmin@pmggamerepo.com",
                             EmailConfirmed = true,
                             IsAdmin = true,
@@ -305,10 +305,10 @@ namespace PMG_s_Game_Repo.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GEORGEADMIN@PMGGAMEREPO.COM",
                             NormalizedUserName = "GEORGEADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAENqLd+Ze4meBlWkYECwatJhQL0fO++jRRoWRPIPpR/JPi9qZVNuR0XhxOArqKbzJ2w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBhX12tYa8ntiwLgfX2yqYi+kCMw1TvnaorgJX4Wo5A/3UDySUwiZdxvQUDgZDpkCQ==",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://i.ibb.co/2Wj9WzN/default-avatar.png",
-                            SecurityStamp = "d053fa59-9f2c-4a43-a58c-6c9dd38d415d",
+                            SecurityStamp = "feb406bd-f1db-4698-972b-7a2b2c47b373",
                             TwoFactorEnabled = false,
                             UserName = "georgeadmin"
                         },
@@ -316,7 +316,7 @@ namespace PMG_s_Game_Repo.Migrations
                         {
                             Id = "2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fb1ca48e-e0ba-4cdd-8857-53e2e8b55f57",
+                            ConcurrencyStamp = "568b5d55-edf1-4362-bd3b-4d010ee76fd3",
                             Email = "miroslavadmin@pmggamerepo.com",
                             EmailConfirmed = true,
                             IsAdmin = true,
@@ -324,10 +324,10 @@ namespace PMG_s_Game_Repo.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MIROSLAVADMIN@PMGGAMEREPO.COM",
                             NormalizedUserName = "MIROSLAVADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKHbYYvm72GuIS7UrpNCHdUzPzgcm6tEgxLc/OKMbC51msyDbikzYhVfNtGXHKEw9A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED1eiTxt6wp4j7Tw2awQqsV/ZHWQiTD5v3TXmhV3E+0QOSgmPgtNq6lrarmTvf8xyg==",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://i.ibb.co/2Wj9WzN/default-avatar.png",
-                            SecurityStamp = "99f7ad4d-7caf-42f5-8dac-cdbbf40760b4",
+                            SecurityStamp = "ed47f5a5-849d-4bc3-b328-fd4bc2e7c7a9",
                             TwoFactorEnabled = false,
                             UserName = "miroslavadmin"
                         },
@@ -335,7 +335,7 @@ namespace PMG_s_Game_Repo.Migrations
                         {
                             Id = "3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "84588b80-704c-45da-860e-f548cc5b1802",
+                            ConcurrencyStamp = "dfb452af-3850-4994-98c8-c3dfc7c86a09",
                             Email = "petaradmin@pmggamerepo.com",
                             EmailConfirmed = true,
                             IsAdmin = true,
@@ -343,10 +343,10 @@ namespace PMG_s_Game_Repo.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PETARADMIN@PMGGAMEREPO.COM",
                             NormalizedUserName = "PETARADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIF0u+WUDRqjhsi4S0OngJCLq6FH/erUt1LmJHQyM9ttF5fE+lHl/b5CsD22LYmj+Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECAY1JdtYT7gL48iEJi6YwsnNrXE36lCCnLKxlv0unpVUG/OoTpMnudnPXYWWxE8JA==",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://i.ibb.co/2Wj9WzN/default-avatar.png",
-                            SecurityStamp = "9588104b-1ad4-4562-ac9e-8f957119ba13",
+                            SecurityStamp = "368cab2c-619d-412e-ade5-127b6b8a3057",
                             TwoFactorEnabled = false,
                             UserName = "petaradmin"
                         });

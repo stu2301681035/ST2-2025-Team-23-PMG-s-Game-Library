@@ -130,3 +130,12 @@ body {
     opacity: 1;
     transform: translateY(0);
 }
+
+.dropdown {
+    padding-right: 15px;
+}
+
+.dashboard {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+}
