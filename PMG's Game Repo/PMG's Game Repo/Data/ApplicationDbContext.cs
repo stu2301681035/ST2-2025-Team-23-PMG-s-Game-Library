@@ -16,6 +16,7 @@ namespace PMG_s_Game_Repo.Data
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<UserGame> UserGames { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<Game> Games { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

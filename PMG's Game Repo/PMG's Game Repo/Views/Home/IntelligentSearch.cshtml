@@ -1,0 +1,63 @@
+﻿@model PMG_s_Game_Repo.ViewModels.IntelligentSearchVm
+
+@{
+    ViewData["Title"] = "Intelligent Search";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-3">Intelligent Search (LLM)</h1>
+
+    <form asp-action="IntelligentSearch" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3">
+            <label class="form-label">Describe what you want (natural language):</label>
+            <textarea class="form-control" name="NaturalQuery" rows="3">@Model?.NaturalQuery</textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Search</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Back</a>
+    </form>
+
+    @if (!string.IsNullOrWhiteSpace(Model?.Error))
+    {
+        <div class="alert alert-danger mt-3">@Model.Error</div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model?.JsonPlan))
+    {
+        <div class="mt-3">
+            <details>
+                <summary class="text-muted">Show JSON plan (debug)</summary>
+                <pre class="bg-light p-3 border rounded small">@Model.JsonPlan</pre>
+            </details>
+        </div>
+    }
+
+    @if (Model?.Results != null)
+    {
+        <div class="mt-4">
+            <h5>Results: @Model.Results.Count</h5>
+            @if (Model.Results.Any())
+            {
+                <div class="row">
+                    @foreach (var g in Model.Results)
+                    {
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                <img src="@g.BackgroundImage" class="card-img-top" style="height:130px; object-fit:cover;" />
+                                <div class="card-body">
+                                    <h6>@g.Name</h6>
+                                    <p class="mb-0"><small>⭐ @g.Rating</small></p>
+                                    <a class="btn btn-sm btn-primary mt-2" href="@Url.Action("Details", "Games", new { id = g.RawgId })">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">No results.</div>
+            }
+        </div>
+    }
+</div>
