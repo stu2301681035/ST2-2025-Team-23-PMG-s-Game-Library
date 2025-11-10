@@ -22,6 +22,8 @@ In the "Games" details page for any specific game you can see a quick descriptio
 
 # BACK END
 
+For the back end we've mostly gone for a *singleton method design pattern*, since it's the one type of design pattern thats most of use to us, because of the logging system, database connections and the admin configuration page we have for admins to moderate problematic users, mostly via the usage of a ban.
+
 The Back end is a fairly typical ASP.NET core with Razer Views structure, complete with Services, Migrations, DTOs and everything else needed for the web app to at least run.
 Naturally, there's 2 types of controllers the users can use, depending on the authorization they have: AccountController (for all users) and AdminController (accessible only to admin users). Normal accounts can be created easily by just registering, but admin accounts are premade in the AppDbContext.
 
