@@ -3,7 +3,7 @@
 PMG's Game Library/Game Repo is a library/repository of games, utilizing RAWG Video Games API or just RAWG for short (https://rawg.io/apidocs).
 It's supposed to be a web .NET web app, using Razer Views, akin to MyAnimeList, where you can make an account and track all the games you've played/completed so far.
 
-The main programming languages used here are C# for all the DB connections, API Integration and most of the back end, HTML and CSS for the front end with a couple of JavaScript scripts for a couple of effects on the front end and Python for the AI integration using Mistral 7B Instruct LLM (which is located in the pythonServer folder).
+The main programming languages used here are C# for all the DB connections, API Integration and most of the back end, HTML and CSS for the front end with a couple of JavaScript scripts for a couple of effects on the front end and Python for the AI integration using Mistral 7B Instruct LLM (which is located in the pythonServer/models folder).
 
 
 # FRONT END
@@ -25,6 +25,8 @@ In the "Games" details page for any specific game you can see a quick descriptio
 For the back end we've mostly gone for a *singleton method design pattern*, since it's the one type of design pattern thats most of use to us, because of the logging system, database connections and the admin configuration page we have for admins to moderate problematic users, mostly via the usage of a ban.
 
 The Back end is a fairly typical ASP.NET core with Razer Views structure, complete with Services, Migrations, DTOs and everything else needed for the web app to at least run.
-Naturally, there's 2 types of controllers the users can use, depending on the authorization they have: AccountController (for all users) and AdminController (accessible only to admin users). Normal accounts can be created easily by just registering, but admin accounts are premade in the AppDbContext.
+Naturally, there's 2 types of controllers the users can use, depending on the authorization they have: AccountController (for all users) and AdminController (accessible only to admin users). Normal accounts can be created easily by just registering, but admin accounts are premade in the AppDbContext (for now there's only 3, one for each member).
 
+We have DTOs for almost anything Game related, from developers to game details and genre and with those DTOs we transfer the data around so that the functionality, of course, works. Like being able to add games to your library (basically favouriting) and it being connected to your account. The search function as well works as you'd expect, with a couple of filters being at your disposal.
 
+We also added an AI search using Mistral, you can prompt the AI about games, like maybe "Action games with a positive rating" and alike and it will show you action games with a high rating, according to the RAWG API. The code surrounding the AI was written in python.
