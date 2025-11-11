@@ -1,0 +1,51 @@
+﻿@* Views/AI/Query.cshtml *@
+@{
+    ViewData["Title"] = "AI Game Search";
+}
+
+<div class="container mt-4">
+    <h2>AI-Powered Game Search</h2>
+    <p class="text-muted">Ask for games using natural language</p>
+
+    <div class="row">
+        <div class="col-md-8">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="userQuery" class="form-label">What are you looking for?</label>
+                    <textarea class="form-control" id="userQuery" name="userQuery" rows="3"
+                              placeholder="e.g., 'Show me the top 5 RPG games with rating above 4.5'">@ViewBag.UserQuery</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Ask AI</button>
+            </form>
+
+            @if (ViewBag.AIResponse != null)
+            {
+                <div class="mt-4">
+                    <h4>AI Response:</h4>
+                    <div class="card">
+                        <div class="card-body">
+                            @ViewBag.AIResponse
+                            <pre class="mb-0"></pre>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Example Queries</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li>• "Action games from 2020"</li>
+                        <li>• "Best strategy games for PC"</li>
+                        <li>• "Horror games with high ratings"</li>
+                        <li>• "Multiplayer games released recently"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

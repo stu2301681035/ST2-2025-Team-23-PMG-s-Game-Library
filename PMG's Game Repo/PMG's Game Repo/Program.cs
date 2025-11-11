@@ -36,6 +36,13 @@ namespace PMG_s_Game_Repo
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+            builder.Services.AddHttpClient<AIService>(client =>
+            {
+                client.Timeout = TimeSpan.FromMinutes(5); 
+            });
+
+            builder.Services.AddScoped<AIService>();
+
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddControllersWithViews(options =>

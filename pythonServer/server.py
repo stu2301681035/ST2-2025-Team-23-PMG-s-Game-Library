@@ -22,7 +22,6 @@ if not os.path.isfile(MODEL_PATH):
 # ----------------------
 # Load model
 # ----------------------
-# chat_format="mistral" активира вградените chat templates
 def try_load_model():
     print("="*70)
     print("🧠  Loading local Mistral GGUF model...")
@@ -30,7 +29,6 @@ def try_load_model():
     print(f"CTX_SIZE     : {CTX_SIZE}")
     print(f"THREADS      : {THREADS}")
     print(f"N_GPU_LAYERS : {N_GPU_LAYERS}")
-    print(f"chat_format  : mistral")
     print("="*70)
 
     try:
@@ -39,10 +37,9 @@ def try_load_model():
             n_ctx=CTX_SIZE,
             n_threads=THREADS,
             n_gpu_layers=N_GPU_LAYERS,
-            # chat_format="mistral",
-            use_mmap=False,   # <-- key change
-            use_mlock=False,  # keep off on Windows
-            verbose=True   # enable verbose loading log
+            use_mmap=False,
+            use_mlock=False,
+            verbose=True
         )
         print("✅ Model loaded successfully!\n")
         return llm_obj
@@ -61,12 +58,12 @@ def try_load_model():
         print("  • You compiled llama-cpp-python without GPU/CPU backend support")
         print("  • Your environment lacks OpenBLAS / AVX2 / CUDA runtime libs")
         print("="*70)
-        raise   # re-raise so FastAPI will 500, but you get full trace in console
+        raise
 
 llm = try_load_model()
 
 # ----------------------
-# OpenAI-like schemas
+# Request schemas
 # ----------------------
 class ChatMessage(BaseModel):
     role: str
@@ -80,73 +77,29 @@ class ChatCompletionsRequest(BaseModel):
     top_p: Optional[float] = 0.95
     stop: Optional[List[str]] = None
 
-class ChoiceMessage(BaseModel):
-    role: str = "assistant"
-    content: str
-
-class ChatChoice(BaseModel):
-    index: int
-    message: ChoiceMessage
-    finish_reason: Optional[str] = "stop"
-
-class ChatCompletionsResponse(BaseModel):
-    id: str = Field(default_factory=lambda: "chatcmpl-local")
-    object: str = "chat.completion"
-    created: int = 0
-    model: str = "mistral-gguf"
-    choices: List[ChatChoice] = []
-    usage: Optional[Dict[str, int]] = None
-
 # ----------------------
 # FastAPI app
 # ----------------------
 app = FastAPI(
-    title="Local GGUF Chat Completions",
+    title="Local GGUF Chat API - Plain Text",
     version="1.0.0"
 )
 
-SYSTEM_FALLBACK = (
-    'You are a strict query planner. '
-    'Return ONLY a single compact JSON object (no prose, no markdown). '
-    'Table: Contacts; Allowed columns: Id, Name, Email, PhoneNumber, AddressLine1, AddressLine2; '
-    'Allowed operators: equals, contains, starts_with, ends_with; '
-    'Combine with AND; Optional order_by (asc|desc), limit<=200, offset. '
-    'Example: {"filters":[{"column":"Email","op":"ends_with","value":"@abv.bg"}],'
-    '"order_by":[{"column":"Name","direction":"asc"}],"limit":50,"offset":0}'
-)
-
-def ensure_system_in_messages(messages: List[ChatMessage]) -> List[Dict[str, str]]:
-    """
-    Преобразува към llama.cpp chat формат и добавя стриктен system prompt,
-    ако липсва.
-    """
-    sys_present = any(m.role == "system" for m in messages)
-    chat = []
-    if not sys_present:
-        chat.append({"role": "system", "content": SYSTEM_FALLBACK})
-    for m in messages:
-        chat.append({"role": m.role, "content": m.content})
-    return chat
-
-def extract_json(text: str) -> str:
-    """Вади вътрешния JSON обект, ако моделът добави обяснения или ```json```."""
-    s = text.strip()
-    start = s.find("{")
-    end = s.rfind("}")
-    if start != -1 and end > start:
-        return s[start:end+1]
-    return s  # последна инстанция – върни каквото е
-
-@app.post("/v1/chat/completions", response_model=ChatCompletionsResponse)
+@app.post("/v1/chat/completions")
 def chat_completions(req: ChatCompletionsRequest):
+    """
+    Returns plain text response only - no JSON wrapper
+    """
     if not req.messages:
         raise HTTPException(status_code=400, detail="messages is required")
 
-    chat = ensure_system_in_messages(req.messages)
+    # Convert to llama.cpp format
+    chat = []
+    for m in req.messages:
+        chat.append({"role": m.role, "content": m.content})
 
     try:
-        # llama.cpp  API за чат
-        # return_dict=True -> получаваме структуриран отговор
+        # Generate response
         out = llm.create_chat_completion(
             messages=chat,
             temperature=req.temperature or 0.2,
@@ -158,32 +111,46 @@ def chat_completions(req: ChatCompletionsRequest):
         print(f"Exception: {e}")
         raise HTTPException(status_code=500, detail=f"Generation failed: {e}")
 
-    # Очакван формат:
-    # out["choices"][0]["message"]["content"]
+    # Extract just the text content
     try:
         content = out["choices"][0]["message"]["content"]
     except Exception:
-        content = json.dumps({"error": "invalid_model_output"})
+        content = "Error: Could not generate response"
 
-    # Подсигури чист JSON (за твоя .NET парсер)
-    content = extract_json(content)
+    # Return plain text
+    return content
 
-    resp = ChatCompletionsResponse(
-        choices=[
-            ChatChoice(
-                index=0,
-                message=ChoiceMessage(content=content),
-                finish_reason="stop"
-            )
-        ],
-        model=req.model or "mistral-gguf",
-        usage=out.get("usage")
-    )
-    return resp
+@app.post("/api/chat")
+def chat_plain(req: ChatCompletionsRequest):
+    """
+    Alternative endpoint that returns plain text
+    """
+    if not req.messages:
+        raise HTTPException(status_code=400, detail="messages is required")
+
+    chat = []
+    for m in req.messages:
+        chat.append({"role": m.role, "content": m.content})
+
+    try:
+        out = llm.create_chat_completion(
+            messages=chat,
+            temperature=req.temperature or 0.2,
+            max_tokens=req.max_tokens or 512,
+            top_p=req.top_p or 0.95,
+            stop=req.stop or None,
+        )
+        
+        content = out["choices"][0]["message"]["content"]
+        return content
+        
+    except Exception as e:
+        print(f"Exception: {e}")
+        raise HTTPException(status_code=500, detail=f"Generation failed: {e}")
 
 @app.get("/")
 def root():
-    return {"status": "ok", "message": "Use POST /v1/chat/completions"}
+    return {"status": "ok", "message": "Use POST /v1/chat/completions or POST /api/chat for plain text responses"}
 
 if __name__ == "__main__":
     uvicorn.run("server:app", host=HOST, port=PORT, reload=False)
