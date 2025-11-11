@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using PMG_s_Game_Repo.Data;
 using PMG_s_Game_Repo.Services;
-using PMG_s_Game_Repo.ViewModels;
 using System.Security.Claims;
 
 namespace PMG_s_Game_Repo.Controllers
@@ -11,18 +10,11 @@ namespace PMG_s_Game_Repo.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly RawgService _rawgService;
-        private readonly ILogger<HomeController> _logger;
-        private readonly AiQueryInterpreter _ai;
-        private readonly GameRepository _repo;
 
-
-        public HomeController(ApplicationDbContext context, RawgService rawgService, ILogger<HomeController> logger, AiQueryInterpreter ai, GameRepository repo)
+        public HomeController(ApplicationDbContext context, RawgService rawgService)
         {
             _context = context;
             _rawgService = rawgService;
-            _logger = logger;
-            _ai = ai;
-            _repo = repo;
         }
 
         public async Task<IActionResult> Index()
@@ -66,40 +58,6 @@ namespace PMG_s_Game_Repo.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public IActionResult IntelligentSearch()
-        {
-            return View(new IntelligentSearchVm());
-        }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> IntelligentSearch(IntelligentSearchVm model)
-        {
-            if (string.IsNullOrWhiteSpace(model.NaturalQuery))
-            {
-                model.Error = "Please enter a search phrase.";
-                return View(model);
-            }
-
-            var (plan, rawJson, error) = await _ai.GetPlanFromNaturalQueryAsync(model.NaturalQuery!);
-            model.JsonPlan = rawJson;
-
-            if (error != null)
-            {
-                model.Error = error;
-                return View(model);
-            }
-
-            if (plan == null)
-            {
-                model.Error = "No valid plan returned.";
-                return View(model);
-            }
-
-            var results = _repo.SelectGamesAdvanced(plan);
-            model.Results = results;
-            return View(model);
-        }
     }
 }

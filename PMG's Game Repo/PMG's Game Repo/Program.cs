@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using PMG_s_Game_Repo.Data;
 using PMG_s_Game_Repo.Filters;
 using PMG_s_Game_Repo.Models;
@@ -24,20 +23,6 @@ namespace PMG_s_Game_Repo
             builder.Services.AddHttpClient();
 
             builder.Services.AddScoped<RawgService>();
-
-            builder.Services.Configure<LlmOptions>(builder.Configuration.GetSection("Llm"));
-
-            builder.Services.AddHttpClient<LlmClient>()
-                .ConfigureHttpClient((sp, http) =>
-                {
-                    var opt = sp.GetRequiredService<IOptions<LlmOptions>>().Value;
-                    http.BaseAddress = new Uri(opt.BaseUrl);
-                    http.Timeout = TimeSpan.FromSeconds(opt.TimeoutSeconds);
-                });
-
-            // register repository/service
-            builder.Services.AddScoped<GameRepository>();
-            builder.Services.AddSingleton<AiQueryInterpreter>(); // stateless wrapper for LLM->QueryPlan
 
 
             // Fix: Replace AddDefaultIdentity with AddIdentity  
