@@ -1,6 +1,6 @@
 # ST2-2025-Team-23-PMG-s-Game-Library
 
-## App made by Georgi Gospodinov, Peter Tenevski, Miroslav Lyugov
+## App made by Georgi Kostadinov, Peter Tenevski, Miroslav Lyugov
 
 PMG's Game Library/Game Repo is a library/repository of games, utilizing RAWG Video Games API or just RAWG for short (https://rawg.io/apidocs).
 It's supposed to be a web .NET web app, using Razer Views, akin to MyAnimeList, where you can make an account and track all the games you've played/completed so far.
